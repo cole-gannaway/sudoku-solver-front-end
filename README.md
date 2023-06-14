@@ -41,7 +41,6 @@ As this is a live website, there is no installation required. Simply open the pr
 The Sudoku Solver Front End website utilizes the following technologies:
 
 - [React](https://react.dev/)
-- [Redux](https://redux.js.org/)
 
 ## Contributing
 
