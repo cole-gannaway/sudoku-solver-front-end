@@ -63,36 +63,39 @@ class Main extends Component<MainProps, { rows: Array<Array<string>>, boardWidth
   public render() {
 
     return <div className="center-custom">
-      <div >
+      <div className="title">
         <h2>Sudoku Solver</h2>
       </div>
-      <div>
+      <div className="sudokuBoardContainer">
         <SudokuBoard rows={this.state.rows} boardWidth={this.state.boardWidth} handleChange={this.handleDataChange} numbersOnly={this.state.numbersOnly}></SudokuBoard>
       </div>
-      <div>
-        <button type="button" className="btn btn-outline-secondary" onClick={this.handleClear} style={{marginRight:"0.5rem"}}>Clear</button>
-        <button type="button" className="btn btn-outline-secondary" onClick={this.handleSolve}>Solve</button>
-      </div>
-      <br></br>
-      <div>
+      <div className="sudokuBoardControlPanel">
         <div>
-          Status: {this.state.status}
-          {
-            this.state.status === solvedStatus ? <i style={{ color: "green" }} className="fab fa-check fa-solid"></i> :
-              this.state.status === failedStatus ? <i style={{ color: "red" }} className="fab fa-xmark fa-solid"></i> :
-                this.state.status === intialStatus ? <i style={{ color: "orange" }} className="fab fa-hand-point-up fa-solid"></i> :
-                  <div></div>
-          }
+          <button type="button" className="btn btn-outline-secondary" onClick={this.handleClear} style={{marginRight:"0.5rem"}}>Clear</button>
+          <button type="button" className="btn btn-outline-secondary" onClick={this.handleSolve}>Solve</button>
+        </div>
+        <br></br>
+        <div>
+          <div>
+            Status: {this.state.status}
+            {
+              this.state.status === solvedStatus ? <i style={{ color: "green" }} className="fab fa-check fa-solid"></i> :
+                this.state.status === failedStatus ? <i style={{ color: "red" }} className="fab fa-xmark fa-solid"></i> :
+                  this.state.status === intialStatus ? <i style={{ color: "orange" }} className="fab fa-hand-point-up fa-solid"></i> :
+                    <div></div>
+            }
+          </div>
         </div>
       </div>
       <br></br>
       <div>
         <h2>Settings<i className="fab fa-gear fa-solid"></i></h2>
-        <div> Board Width: <i>"NxN"</i> <input style={{ width: "40px" }} type="number" pattern="[0-9]*" value={this.state.boardWidth} onChange={this.handleWidthChange}></input></div>
+        <div className="boardSizeContainer"> Board Width: <i>"NxN"</i> <input style={{ width: "40px" }} type="number" pattern="[0-9]*" value={this.state.boardWidth} onChange={this.handleWidthChange}></input></div>
         <br></br>
-        <div>Numbers Only <input type="checkbox" checked={this.state.numbersOnly} onChange={this.handleNumbersOnlyChange}></input></div>
-
-        <SudokuOptions possbileValues={this.state.possibleValues} handlePossbileValueChange={this.handlePossibleValueChange}></SudokuOptions>
+        <div className="boardConfigContainer">
+          <div>Numbers Only <input type="checkbox" checked={this.state.numbersOnly} onChange={this.handleNumbersOnlyChange}></input></div>
+          <SudokuOptions possbileValues={this.state.possibleValues} handlePossbileValueChange={this.handlePossibleValueChange}></SudokuOptions>
+        </div>
         <br></br>
       </div>
     </div >;
