@@ -68,6 +68,7 @@ function App() {
       <TourProvider
         steps={steps}
         defaultOpen={true}
+        scrollSmooth={true}
       >
         <Main></Main>
       </TourProvider>
