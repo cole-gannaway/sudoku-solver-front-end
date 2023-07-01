@@ -7,6 +7,7 @@ import { ISudokuSolveResponse } from '../../interfaces/ISudokuSolveResponse';
 import Example4by4JSON from '../test/4by4.json'
 import Example9by9JSON from '../test/9by9.json'
 import Example16by16JSON from '../test/16by16.json'
+import Example25by25JSON from '../test/25by25.json'
 
 
 type MainProps = {
@@ -62,41 +63,43 @@ class Main extends Component<MainProps, { rows: Array<Array<string>>, boardWidth
   }
   public render() {
 
-    return <div className="center-custom">
-      <div className="title">
-        <h2>Sudoku Solver</h2>
-      </div>
-      <div className="sudokuBoardContainer">
-        <SudokuBoard rows={this.state.rows} boardWidth={this.state.boardWidth} handleChange={this.handleDataChange} numbersOnly={this.state.numbersOnly}></SudokuBoard>
-      </div>
-      <div className="sudokuBoardControlPanel">
-        <div>
-          <button type="button" className="btn btn-outline-secondary" onClick={this.handleClear} style={{marginRight:"0.5rem"}}>Clear</button>
-          <button type="button" className="btn btn-outline-secondary" onClick={this.handleSolve}>Solve</button>
+    return <div className='center-container'>
+      <div className="center-custom">
+        <div className="title">
+          <h2>Sudoku Solver</h2>
         </div>
-        <br></br>
-        <div>
+        <div className="sudokuBoardContainer">
+          <SudokuBoard rows={this.state.rows} boardWidth={this.state.boardWidth} handleChange={this.handleDataChange} numbersOnly={this.state.numbersOnly}></SudokuBoard>
+        </div>
+        <div className="sudokuBoardControlPanel">
           <div>
-            Status: {this.state.status}
-            {
-              this.state.status === solvedStatus ? <i style={{ color: "green" }} className="fab fa-check fa-solid"></i> :
+            <button type="button" className="btn btn-outline-secondary" onClick={this.handleClear} style={{marginRight:"0.5rem"}}>Clear</button>
+            <button type="button" className="btn btn-outline-secondary" onClick={this.handleSolve}>Solve</button>
+          </div>
+          <br></br>
+          <div>
+            <div>
+              Status: {this.state.status}
+              {
+                this.state.status === solvedStatus ? <i style={{ color: "green" }} className="fab fa-check fa-solid"></i> :
                 this.state.status === failedStatus ? <i style={{ color: "red" }} className="fab fa-xmark fa-solid"></i> :
-                  this.state.status === intialStatus ? <i style={{ color: "orange" }} className="fab fa-hand-point-up fa-solid"></i> :
-                    <div></div>
-            }
+                this.state.status === intialStatus ? <i style={{ color: "orange" }} className="fab fa-hand-point-up fa-solid"></i> :
+                <div></div>
+              }
+            </div>
           </div>
         </div>
-      </div>
-      <br></br>
-      <div>
-        <h2>Settings<i className="fab fa-gear fa-solid"></i></h2>
-        <div className="boardSizeContainer"> Board Width: <i>"NxN"</i> <input style={{ width: "40px" }} type="number" pattern="[0-9]*" value={this.state.boardWidth} onChange={this.handleWidthChange}></input></div>
         <br></br>
-        <div className="boardConfigContainer">
-          <div>Numbers Only <input type="checkbox" checked={this.state.numbersOnly} onChange={this.handleNumbersOnlyChange}></input></div>
-          <SudokuOptions possbileValues={this.state.possibleValues} handlePossbileValueChange={this.handlePossibleValueChange}></SudokuOptions>
+        <div>
+          <h2>Settings<i className="fab fa-gear fa-solid"></i></h2>
+          <div className="boardSizeContainer"> Board Width: <i>"NxN"</i> <input style={{ width: "40px" }} type="number" pattern="[0-9]*" value={this.state.boardWidth} onChange={this.handleWidthChange}></input></div>
+          <br></br>
+          <div className="boardConfigContainer">
+            <div>Numbers Only <input type="checkbox" checked={this.state.numbersOnly} onChange={this.handleNumbersOnlyChange}></input></div>
+            <SudokuOptions possbileValues={this.state.possibleValues} handlePossbileValueChange={this.handlePossibleValueChange}></SudokuOptions>
+          </div>
+          <br></br>
         </div>
-        <br></br>
       </div>
     </div >;
   }
@@ -126,6 +129,18 @@ class Main extends Component<MainProps, { rows: Array<Array<string>>, boardWidth
         else return "";
       }));
       if (hexadokuPossibleValues) possibleValues = hexadokuPossibleValues;
+    } else if (newWidth === 5) {
+      const alphabetArray = [];
+
+      // create the alphabet from A-Y
+      for (let i = 65; i <= 89; i++) {
+        const char = String.fromCharCode(i);
+        alphabetArray.push(char);
+      }
+
+      possibleValues = alphabetArray;
+      board = Example25by25JSON.rows
+      numbersOnly = false;
     }
     this.setBoard(board);
     this.setPossibleValues(possibleValues);
@@ -272,10 +287,10 @@ class Main extends Component<MainProps, { rows: Array<Array<string>>, boardWidth
 
       // update board state
       const solution: ISudokuSolveResponse = response;
-      this.setBoard(solution.rows);
-
+      
       // update status
       if (solution.solved) {
+        this.setBoard(solution.rows);
         this.setStatus(solvedStatus);
       } else {
         this.setStatus(failedStatus);
@@ -283,7 +298,7 @@ class Main extends Component<MainProps, { rows: Array<Array<string>>, boardWidth
     } else {
       // log error message
       console.log(response);
-      this.setStatus(response);
+      this.setStatus(failedStatus);
     }
   }
 
