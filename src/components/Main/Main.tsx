@@ -11,6 +11,8 @@ import Example25by25JSON from '../test/25by25.json'
 import Example36by36JSON from '../test/36by36.json'
 import Example49by49JSON from '../test/49by49.json'
 import Example64by64JSON from '../test/64by64.json'
+import Example81by81JSON from '../test/81by81.json'
+import Example100by100JSON from '../test/100by100.json'
 
 
 type MainProps = {
@@ -150,6 +152,10 @@ class Main extends Component<MainProps, { rows: Array<Array<string>>, boardWidth
       board = Example49by49JSON.rows;
     } else if (newWidth === 8) {
       board = Example64by64JSON.rows;
+    } else if (newWidth === 9) {
+      board = Example81by81JSON.rows;
+    } else if (newWidth === 10) {
+      board = Example100by100JSON.rows;
     }
     this.setBoard(board);
     this.setPossibleValues(possibleValues);
